@@ -26,6 +26,7 @@ else:
     print("Invalid score input.")
 
 # 3. Determine the day of the week based on the number
+print("=======Program to determine the day of the week based on the number=======")
 day = int(input("Input a number (1-7): "))
 
 if day == 1:
@@ -44,3 +45,12 @@ elif day == 7:
     print("Day 7 is Saturday")
 else:
     print("Input a valid number (1-7)")
+    
+# 4. Print numbers from 1 to the input number
+print("=======Program to print numbers from 1 to the input number=======")
+number = int(input("Input a number: "))
+
+i = 1
+while i <= number:
+    print(i)
+    i += 1
