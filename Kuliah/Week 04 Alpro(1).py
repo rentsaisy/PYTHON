@@ -24,3 +24,23 @@ elif score >= 0 and score <= 39:
     print("Grade: E")
 else:
     print("Invalid score input.")
+
+# 3. Determine the day of the week based on the number
+day = int(input("Input a number (1-7): "))
+
+if day == 1:
+    print("Day 1 is Sunday")
+elif day == 2:
+    print("Day 2 is Monday")
+elif day == 3:
+    print("Day 3 is Tuesday")
+elif day == 4:
+    print("Day 4 is Wednesday")
+elif day == 5:
+    print("Day 5 is Thursday")
+elif day == 6:
+    print("Day 6 is Friday")
+elif day == 7:
+    print("Day 7 is Saturday")
+else:
+    print("Input a valid number (1-7)")
