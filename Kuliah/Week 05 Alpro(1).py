@@ -41,126 +41,122 @@ def biodata(**info):
 biodata(name="Aisyah", age=19, major="Informatics Management")
 
 ##NESTED LOOP
-# 1. Nested loop to print coordinates and RGB values of an image
-from PIL import Image       
-import numpy as np          
-import pandas as pd         
-
-image = Image.open("yoyo.jpg")     
-image = image.resize((250, 250))  
-
-array_image = np.array(image)
-
-R = array_image[:, :, 0]  
-G = array_image[:, :, 1]
-B = array_image[:, :, 2]
-
-rgb_data = []   
-
-for y in range(image.height):     
-    for x in range(image.width):   
-        r = R[y, x]
-        g = G[y, x]
-        b = B[y, x]
-        
-        rgb_data.append([x, y, r, g, b])
-
-rgb_table = pd.DataFrame(rgb_data, columns=["X", "Y", "R", "G", "B"])
-
-rgb_table.to_csv("rgb.csv", index=False)
-
-print("RGB data is in 'rgb.csv'")
-print("Here are the first 5 entries:")
-print(rgb_table.head())
-print("-----------------------------------------------------")
-
-# 2. Nested loop to Grayscale       
-from PIL import Image
-import numpy as np
-import pandas as pd
-
-image = Image.open("yoyo.jpg")     
-image = image.resize((250, 250))   
-
-grayscale_array = np.zeros((image.height, image.width), dtype=np.uint8)
-
-for y in range(image.height):
-    for x in range(image.width):
-        grayscale_array[y, x] = int((R[y, x] + G[y, x] + B[y, x]) / 3)
-
-grayscale_image = Image.fromarray(grayscale_array, mode="L")
-grayscale_image.show()
-grayscale_image.save("grayscale_result.jpg")
-
-print("The image has been successfully converted to grayscale and saved as 'grayscale_result.jpg'")
-print("-----------------------------------------------------")
-
 #(Similar to Github Repo:deenaariff)
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-# Open image and ensure RGB
-image = Image.open("yoyo.jpg").convert("RGB")
+def open_image_anywhere(filename: str) -> Image.Image:
+    p = Path(filename)
+    if not p.is_file():
+        p = Path(__file__).parent / filename
+    if not p.is_file():
+        raise FileNotFoundError(f"Tidak menemukan file: {filename}\nDicoba di: {Path.cwd()} dan {Path(__file__).parent}")
+    return Image.open(p).resize((250, 250)).convert("RGB")
 
-# Convert to numpy array: shape (H, W, 3)
-arr = np.array(image)
-H, W, _ = arr.shape
+def rgb_values():
+    img = input("Enter image file name: ").strip()
+    image = open_image_anywhere(img)
+    arr = np.array(image, dtype=np.uint8)
+    H, W, _ = arr.shape
 
-# Initialize grayscale arrays
-grey  = np.zeros((H, W), dtype=np.float32)  # human-weighted
-grey2 = np.zeros((H, W), dtype=np.float32)  # raw average
+    plt.imshow(arr)
+    plt.axis("off")
+    plt.title(f"Preview of {img}")
+    ax = plt.gca()
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{int(x)}"))
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{int(y)}"))
+    plt.show()
 
-# 'Human' luminance (no /3)
-def average1(pixel):
-    return 0.299*pixel[0] + 0.587*pixel[1] + 0.114*pixel[2]
+    yy, xx = np.indices((H, W), dtype=int)
+    R = arr[:, :, 0].ravel()
+    G = arr[:, :, 1].ravel()
+    B = arr[:, :, 2].ravel()
 
-# Raw average
-def average2(pixel):
-    return np.average(pixel)
+    table = np.column_stack([xx.ravel(), yy.ravel(), R, G, B])
+    header = "x,y,R,G,B"
 
-# Map averages of pixels to the grey images (nested loops)
-for r in range(H):
-    for c in range(W):
-        p = arr[r, c]                 # [R, G, B]
-        grey[r, c]  = average1(p)
-        grey2[r, c] = average2(p)
+    np.savetxt("rgb_values.csv", table, fmt="%d", delimiter=",", header=header, comments="")
+    print("CSV saved as rgb_values.csv")
 
-# Convert to 8-bit for display/saving
-grey_u8  = grey.clip(0, 255).astype(np.uint8)
-grey2_u8 = grey2.clip(0, 255).astype(np.uint8)
+    limit = int(input("How many pixels to print? (0 = all): ") or 0)
+    total = H * W
+    count = 0
 
-# Show one of them (human-weighted)
-plt.imshow(grey_u8, cmap="gray")
-plt.axis("off")
-plt.show()
+    print("\n--- RGB COORDINATES ---")
+    for y in range(H):
+        for x in range(W):
+            r, g, b = arr[y, x]
+            print(f"({x:3d},{y:3d}) → RGB({r},{g},{b})")
+            count += 1
+            if limit != 0 and count == limit:
+                print(f"------- limit reached -------")
+                return
 
-# (Optional) save results
-Image.fromarray(grey_u8,  mode="L").save("grayscale_human.jpg")
-Image.fromarray(grey2_u8, mode="L").save("grayscale_avg.jpg")
+    print(f"\n Done printing all {total} RGB coordinates.")
 
-# 3. Nested loop to black and white
-from PIL import Image
-import numpy as np
+def grayscale():
+    img = input("Enter image file name: ").strip()
+    image = open_image_anywhere(img)
+    arr = np.array(image, dtype=np.uint8)
+    H, W, _ = arr.shape
 
-image = Image.open("yoyo.jpg")
-image = image.resize((250, 250))  
+    grey = 0.299 * arr[:, :, 0] + 0.587 * arr[:, :, 1] + 0.114 * arr[:, :, 2]
 
-image_array = np.array(image)
+    grey_u8 = grey.clip(0, 255).astype(np.uint8)
+    plt.imshow(grey_u8, cmap="gray")
+    plt.axis("off")
+    plt.title(f"Grayscale of {img}")
+    ax = plt.gca()
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{int(x)}"))
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{int(y)}"))
+    plt.show()
 
-R = image_array[:, :, 0]   
-G = image_array[:, :, 1]  
-B = image_array[:, :, 2]  
+    yy, xx = np.indices((H, W), dtype=int)
+    Grey = grey_u8.ravel()
+    table = np.column_stack([xx.ravel(), yy.ravel(), Grey])
+    header = "x,y,GrayValue"
+    np.savetxt("grayscale.csv", table, fmt="%d", delimiter=",", header=header, comments="")
+    print("CSV saved as grayscale.csv")
 
-threshold = 128
+def binary():
+    img = input("Enter image file name: ").strip()
+    image = open_image_anywhere(img)
+    arr = np.array(image, dtype=np.uint8)
+    H, W, _ = arr.shape
 
-brightness = (0.299 * R) + (0.587 * G) + (0.114 * B)
+    grey = 0.299 * arr[:, :, 0] + 0.587 * arr[:, :, 1] + 0.114 * arr[:, :, 2]
 
-bw_array = np.where(brightness >= threshold, 255, 0).astype(np.uint8)
+    threshold = 128
+    bw = np.where(grey >= threshold, 255, 0).astype(np.uint8)
 
-bw_image = Image.fromarray(bw_array, mode="L")
+    plt.imshow(bw, cmap="gray")
+    plt.axis("off")
+    plt.title(f"Binary (threshold {threshold}) of {img}")
+    ax = plt.gca()
+    ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{int(x)}"))
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{int(y)}"))
+    plt.show()
 
-bw_image.show()
-bw_image.save("black_white_result.jpg")
+    yy, xx = np.indices((H, W), dtype=int)
+    table = np.column_stack([xx.ravel(), yy.ravel(), bw.ravel()])
+    header = "x,y,BinaryValue"
+    np.savetxt("binary.csv", table, fmt="%d", delimiter=",", header=header, comments="")
+    print("CSV saved as binary.csv")
 
-print("The image has been successfully converted to black and white!")
+if __name__ == "__main__":
+    print("Modes available:")
+    print("1. Print coordinates and rgb codes")
+    print("2. Convert to Grayscale")
+    print("3. Convert to Binary (Black/White)")
+    choice = input("Choose mode (1/2/3) or (rgb/grayscale/binary): ").strip()
+
+    if choice == "1" or choice.lower() == "rgb":
+        rgb_values()
+    elif choice == "2" or choice.lower() == "grayscale":
+        grayscale()
+    elif choice == "3" or choice.lower() == "binary":
+        binary()
+    else:
+        print("Invalid choice. Please choose 1, 2, or 3.")
