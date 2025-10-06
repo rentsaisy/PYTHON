@@ -56,7 +56,8 @@ while i <= number:
     print(i)
     i += 1
 
-# 5.
+# 5. Sum of odd numbers from 1 to N
+print("=======Program to calculate the sum of odd numbers from 1 to N=======")
 N = int(input("Input a number: "))
 
 i = 1
@@ -66,7 +67,7 @@ while i <= N:
         print(i)
         total += i
     i += 1
-print("Jumlah angka ganjil dari 1 sampai ", N, "is ", total) 
+print("Sum of odd numbers from 1 to ", N, "is ", total)
 
 # 6.
 N = int(input("Masukkan sebuah angka: "))
