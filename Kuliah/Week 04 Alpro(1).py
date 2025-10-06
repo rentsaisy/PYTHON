@@ -67,3 +67,12 @@ while i <= N:
         total += i
     i += 1
 print("Jumlah angka ganjil dari 1 sampai ", N, "is ", total) 
+
+# 6.
+N = int(input("Masukkan sebuah angka: "))
+
+tabel = 1
+while tabel <= 10: 
+    hasil = N * tabel
+    print(N, "x", tabel, "=", hasil)
+    tabel += 1
