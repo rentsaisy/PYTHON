@@ -98,4 +98,25 @@ i = 1
 while i <= N:
     print("*" * i)
     i += 1
-    
+
+# 9.
+secret_number = 50
+round = 0
+round_limit = 8
+print("============WELCOME TO GUESS THE NUMBER GAME============")
+print("Your Round is " + str(round_limit))
+
+while(round < round_limit):
+    guess = int(input("Your guess:"))
+    round += 1
+    if (guess < secret_number):
+        print ("Your guess is too low")
+    elif (guess > secret_number):
+        print ("Your guess is too high")
+    else:
+        print ("Congratulations! your guess is correct")
+        exit(0)
+    print("Your left round is " + str(round_limit - round))
+while(round > round_limit):
+        print("you're out of rounds, the secret number was " + str(secret_number))
+        break
