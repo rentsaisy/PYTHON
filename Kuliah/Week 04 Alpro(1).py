@@ -120,3 +120,21 @@ while(round < round_limit):
 while(round > round_limit):
         print("you're out of rounds, the secret number was " + str(secret_number))
         break
+    
+# 10.
+print("Selamat datang! Silakan login.")
+username = input("Username: ")
+password = input("Password: ")
+loginchance = 3
+while True:
+    if username == "admin" and password == "1234":
+        print("Login berhasil! Selamat datang, " + username + ".")
+        break
+    else:
+        loginchance -= 1
+        if loginchance > 0:
+            print("Akses gagal! Username atau password salah. Sisa kesempatan: " + str(loginchance))
+            username = input("Username: ")
+            password = input("Password: ")
+        else:
+            print("Akses ditolak! Kesempatan login habis.") 
