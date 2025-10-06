@@ -76,3 +76,26 @@ while tabel <= 10:
     hasil = N * tabel
     print(N, "x", tabel, "=", hasil)
     tabel += 1
+    
+# 7.
+Bilangan = int(input("Masukkan sebuah angka: "))
+
+i = 2
+is_prime = True
+while i <= Bilangan // 2:
+    if Bilangan % i == 0:
+        is_prime = False
+        break
+    i += 1
+if is_prime and Bilangan > 1:
+    print(Bilangan, "adalah bilangan prima.")
+else:
+    print(Bilangan, "bukan bilangan prima.")
+
+# 8.
+N = int(input("Masukkan tinggi pola segitiga bintang: "))
+i = 1
+while i <= N:
+    print("*" * i)
+    i += 1
+    
