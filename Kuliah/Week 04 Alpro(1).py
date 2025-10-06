@@ -30,6 +30,7 @@ print("=======Program to determine the day of the week based on the number======
 day = int(input("Input a number (1-7): "))
 
 if day == 1:
+    
     print("Day 1 is Sunday")
 elif day == 2:
     print("Day 2 is Monday")
@@ -54,3 +55,15 @@ i = 1
 while i <= number:
     print(i)
     i += 1
+
+# 5.
+N = int(input("Input a number: "))
+
+i = 1
+total = 0
+while i <= N:
+    if i % 2 == 1:
+        print(i)
+        total += i
+    i += 1
+print("Jumlah angka ganjil dari 1 sampai ", N, "is ", total) 
