@@ -72,12 +72,12 @@ print("Sum of odd numbers from 1 to ", N, "is ", total)
 # 6.
 N = int(input("Input a number: "))
 
-tabel = 1
-while tabel <= 10: 
-    hasil = N * tabel
-    print(N, "x", tabel, "=", hasil)
-    tabel += 1
-    
+table = 1
+while table <= 10: 
+    hasil = N * table
+    print(N, "x", table, "=", hasil)
+    table += 1
+
 # 7.
 Bilangan = int(input("Masukkan sebuah angka: "))
 
