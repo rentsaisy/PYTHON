@@ -80,7 +80,7 @@ while table <= 10:
     table += 1
 
 # 7.
-Bilangan = int(input("Masukkan sebuah angka: "))
+Bilangan = int(input("Input a number: "))
 
 i = 2
 is_prime = True
