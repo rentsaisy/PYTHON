@@ -95,8 +95,9 @@ if is_prime and Number > 1:
 else:
     print(Number, "is not a prime number.")
 
-# 8.
-N = int(input("Masukkan tinggi pola segitiga bintang: "))
+# 8. Print a right-angled triangle pattern of stars
+print("=======Program to print a right-angled triangle pattern of stars=======")
+N = int(input("Input the height of the star triangle pattern: "))
 i = 1
 while i <= N:
     print("*" * i)
