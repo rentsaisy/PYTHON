@@ -74,8 +74,8 @@ N = int(input("Input a number: "))
 
 table = 1
 while table <= 10: 
-    hasil = N * table
-    print(N, "x", table, "=", hasil)
+    result = N * table
+    print(N, "x", table, "=", result)
     table += 1
 
 # 7.
