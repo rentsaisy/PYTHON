@@ -69,7 +69,8 @@ while i <= N:
     i += 1
 print("Sum of odd numbers from 1 to ", N, "is ", total)
 
-# 6.
+# 6. Multiplication table of N
+print("=======Program to print the multiplication table of N=======")
 N = int(input("Input a number: "))
 
 table = 1
