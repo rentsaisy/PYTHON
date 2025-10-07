@@ -70,7 +70,7 @@ while i <= N:
 print("Sum of odd numbers from 1 to ", N, "is ", total)
 
 # 6.
-N = int(input("Masukkan sebuah angka: "))
+N = int(input("Input a number: "))
 
 tabel = 1
 while tabel <= 10: 
