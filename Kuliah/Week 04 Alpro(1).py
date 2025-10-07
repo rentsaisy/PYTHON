@@ -80,19 +80,19 @@ while table <= 10:
     table += 1
 
 # 7.
-Bilangan = int(input("Input a number: "))
+Number = int(input("Input a number: "))
 
 i = 2
 is_prime = True
-while i <= Bilangan // 2:
-    if Bilangan % i == 0:
+while i <= Number // 2:
+    if Number % i == 0:
         is_prime = False
         break
     i += 1
-if is_prime and Bilangan > 1:
-    print(Bilangan, "adalah bilangan prima.")
+if is_prime and Number > 1:
+    print(Number, "is a prime number.")
 else:
-    print(Bilangan, "bukan bilangan prima.")
+    print(Number, "is not a prime number.")
 
 # 8.
 N = int(input("Masukkan tinggi pola segitiga bintang: "))
