@@ -79,7 +79,8 @@ while table <= 10:
     print(N, "x", table, "=", result)
     table += 1
 
-# 7.
+# 7. Check if a number is prime
+print("=======Program to check if a number is prime=======")
 Number = int(input("Input a number: "))
 
 i = 2
