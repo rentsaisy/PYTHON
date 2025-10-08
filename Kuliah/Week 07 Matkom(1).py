@@ -4,6 +4,7 @@ set_b = {3, 4, 5}
 print(len(set_a)==len(set_b))
 print("Size set A:", len(set_a))
 
+# 2. Disjoint
 set_a = {1, 2, 3}
 set_b = {3, 4, 5}
 print(set_a.isdisjoint(set_b))
