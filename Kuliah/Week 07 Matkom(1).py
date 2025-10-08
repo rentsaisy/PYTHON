@@ -9,13 +9,13 @@ set_a = {1, 2, 3}
 set_b = {3, 4, 5}
 print(set_a.isdisjoint(set_b))
 
-from itertools import chain, combinations
+# from itertools import chain, combinations
 
-def power_set(s):
-    return list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
+# def power_set(s):
+#     return list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
 
-set_a = {1, 2, 3}
-print(power_set(set_a))
+# set_a = {1, 2, 3}
+# print(power_set(set_a))
 
 # Himpunan A dan B
 set_a = {1, 2, 3, 4}
