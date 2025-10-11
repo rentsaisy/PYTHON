@@ -5,17 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-def open_image_anywhere(filename: str) -> Image.Image:
-    p = Path(filename)
-    if not p.is_file():
-        p = Path(__file__).parent / filename
-    if not p.is_file():
-        raise FileNotFoundError(f"Tidak menemukan file: {filename}\nDicoba di: {Path.cwd()} dan {Path(__file__).parent}")
-    return Image.open(p).resize((250, 250)).convert("RGB")
-
 def rgb_values():
     img = input("Enter image file name: ").strip()
-    image = open_image_anywhere(img)
+    image = Image.open(img).convert("RGB")
     arr = np.array(image, dtype=np.uint8)
     H, W, _ = arr.shape
 
@@ -56,7 +48,7 @@ def rgb_values():
 
 def grayscale():
     img = input("Enter image file name: ").strip()
-    image = open_image_anywhere(img)
+    image = Image.open(img).convert("RGB")
     arr = np.array(image, dtype=np.uint8)
     H, W, _ = arr.shape
 
@@ -80,7 +72,7 @@ def grayscale():
 
 def binary():
     img = input("Enter image file name: ").strip()
-    image = open_image_anywhere(img)
+    image = Image.open(img).convert("RGB")
     arr = np.array(image, dtype=np.uint8)
     H, W, _ = arr.shape
 
