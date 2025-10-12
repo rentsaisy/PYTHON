@@ -1,17 +1,17 @@
-# kursus_a = {"Deny", "Budi", "Citra", "Dewi"}
-# kursus_b = {"Fahri", "Gina", "Hadi", "Ira"}
+kursus_a = {"Deny", "Budi", "Citra", "Dewi"}
+kursus_b = {"Fahri", "Gina", "Hadi", "Ira"}
 
-# # Cek apakah kedua himpunan ekivalen
-# def cek_himpunan_ekivalen(set_a, set_b):
-#     return len(set_a) == len(set_b)
+# Cek apakah kedua himpunan ekivalen
+def cek_himpunan_ekivalen(set_a, set_b):
+    return len(set_a) == len(set_b)
 
-# if cek_himpunan_ekivalen(kursus_a, kursus_b):
-#     print("Kedua himpunan ekivalen.")
-# else:
-#     print("Kedua himpunan tidak ekivalen.")
+if cek_himpunan_ekivalen(kursus_a, kursus_b):
+    print("Kedua himpunan ekivalen.")
+else:
+    print("Kedua himpunan tidak ekivalen.")
 
-# matkom = {"Deny", "Budi", "Citra", "Dewi"}
-# strukdat = {"Eko", "Farhan", "Gita", "Hadi"}
+matkom = {"Deny", "Budi", "Citra", "Dewi"}
+strukdat = {"Eko", "Farhan", "Gita", "Hadi"}
 
 # Cek apakah kedua himpunan saling lepas
 def cek_himpunan_lepas(set_a, set_b):
