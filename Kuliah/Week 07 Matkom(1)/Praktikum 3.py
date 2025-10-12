@@ -13,23 +13,23 @@
 # matkom = {"Deny", "Budi", "Citra", "Dewi"}
 # strukdat = {"Eko", "Farhan", "Gita", "Hadi"}
 
-# # Cek apakah kedua himpunan saling lepas
-# def cek_himpunan_lepas(set_a, set_b):
-#     return set_a.isdisjoint(set_b)
+# Cek apakah kedua himpunan saling lepas
+def cek_himpunan_lepas(set_a, set_b):
+    return set_a.isdisjoint(set_b)
 
-# if cek_himpunan_lepas(matkom, strukdat):
-#     print("Kedua himpunan saling lepas.")
-# else:
-#     print("Kedua himpunan memiliki elemen yang sama.")
+if cek_himpunan_lepas(matkom, strukdat):
+    print("Kedua himpunan saling lepas.")
+else:
+    print("Kedua himpunan memiliki elemen yang sama.")
 
-# from itertools import chain, combinations
+from itertools import chain, combinations
 
-# def himpunan_kuasa(s):
-#     return list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
+def himpunan_kuasa(s):
+    return list(chain.from_iterable(combinations(s, r) for r in range(len(s)+1)))
 
-# kursus = {"Deny", "Budi", "Citra"}
-# kuasa = himpunan_kuasa(kursus)
-# print("Himpunan Kuasa:", kuasa)
+kursus = {"Deny", "Budi", "Citra"}
+kuasa = himpunan_kuasa(kursus)
+print("Himpunan Kuasa:", kuasa)
 
 matkom = {"Deny", "Budi", "Citra", "Dewi"}
 strukdat = {"Citra", "Dewi", "Eko", "Farhan"}
