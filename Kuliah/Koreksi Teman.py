@@ -1,5 +1,5 @@
-from PIL import Image
-from pathlib import Path
+# from PIL import Image
+# from pathlib import Path
 
 def open_image_anywhere(filename: str) -> Image.Image:
     p = Path(filename)
