@@ -34,9 +34,9 @@ export default function MLResultsPage() {
 
           {/* Insights */}
           <div className="space-y-4">
-            <div className="bg-gradient-to-br from-red-50/50 to-red-50/25 border border-red-200/50 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-red-500/10 to-red-500/5 dark:from-red-900/20 dark:to-red-900/10 border border-red-500/30 dark:border-red-700/30 rounded-xl p-6">
               <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-1" />
+                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Critical Priority</h3>
                   <p className="text-sm text-muted-foreground">
@@ -46,7 +46,7 @@ export default function MLResultsPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-primary/15 to-primary/5 dark:from-primary/20 dark:to-primary/10 border border-primary/30 dark:border-primary/40 rounded-xl p-6">
               <div className="flex items-start gap-3">
                 <TrendingUp className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
                 <div>
@@ -58,7 +58,7 @@ export default function MLResultsPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-accent/15 to-accent/5 border border-accent/30 rounded-xl p-6">
+            <div className="bg-gradient-to-br from-accent/15 to-accent/5 dark:from-accent/20 dark:to-accent/10 border border-accent/30 dark:border-accent/40 rounded-xl p-6">
               <div className="flex items-start gap-3">
                 <Zap className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
                 <div>

@@ -35,10 +35,10 @@ export default function Sidebar({ open, currentPage, onNavigate }: SidebarProps)
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="font-bold text-foreground">AcademiCS</h2>
+            <h2 className="font-bold text-foreground">PRITASK</h2>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               <Zap className="w-3 h-3" />
-              ML Priority
+              Prioritize your tasks
             </p>
           </div>
         </div>
