@@ -1,88 +1,54 @@
-import hashlib  # Modul bawaan Python untuk menghasilkan hash (termasuk SHA256)
-import os       # Modul untuk berinteraksi dengan sistem file
+from PIL import Image
+import csv
+import time
 
-# ===============================================================
-# Fungsi: get_file_checksum
-# Deskripsi:
-#   Menghitung nilai checksum SHA-256 dari file yang diberikan.
-#   Fungsi ini memastikan bahwa isi file dibaca dalam mode biner
-#   agar perhitungan hash akurat.
-# Parameter:
-#   filename (str) → Nama file yang akan dihitung hash-nya.
-# Return:
-#   String berisi hash SHA256 dalam format heksadesimal (64 karakter).
-# ===============================================================
-def get_file_checksum(filename):
+def load_image(path):
+    """Load image and convert to RGBA."""
     try:
-        # Membuka file dalam mode biner (binary read)
-        with open(filename, "rb") as f:
-            file_data = f.read()  # Membaca seluruh isi file
-            # Menghitung hash SHA-256 dari data file
-            sha256_hash = hashlib.sha256(file_data).hexdigest()
-            return sha256_hash  # Mengembalikan nilai hash heksadesimal
+        start_time = time.time()
+        img = Image.open(path).convert("RGBA")
+        end_time = time.time()
+
+        print(f"Image loaded: {path}")
+        print(f"Image size: {img.width}x{img.height} pixels")
+        print(f"Image load time: {end_time - start_time:.4f} seconds")
+        return img
     except FileNotFoundError:
-        # Jika file tidak ditemukan, tampilkan pesan kesalahan
-        print(f"[!] File '{filename}' not found.")
-        return None  # Kembalikan None untuk menandai error
+        print("Image not found.")
+        return None
 
-# ===============================================================
-# Fungsi: get_file_info
-# Deskripsi:
-#   Mengambil ukuran file dalam satuan kilobyte (KB).
-# Parameter:
-#   filename (str) → Nama file yang akan dicek.
-# Return:
-#   Ukuran file dalam KB (float). Jika tidak ada, kembalikan 0.
-# ===============================================================
-def get_file_info(filename):
-    # Mengecek apakah file benar-benar ada
-    if not os.path.isfile(filename):
-        return 0
-    # Jika ada, ambil ukuran file dalam byte dan ubah menjadi KB
-    return os.path.getsize(filename) / 1024
+def save_rgba_to_csv(img, output_csv):
+    """Save all pixel coordinates and RGBA values to CSV."""
+    if img is None:
+        print("No image to process.")
+        return
 
-# ===============================================================
-# Fungsi Utama: main
-# Deskripsi:
-#   Mengatur alur utama program:
-#   1. Meminta dua nama file dari pengguna
-#   2. Menghitung hash SHA-256 untuk masing-masing file
-#   3. Menampilkan ukuran, hash, dan hasil perbandingan
-# ===============================================================
+    start_time = time.time()
+    with open(output_csv, mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["x", "y", "R", "G", "B", "A"])  # Header
+
+        for y in range(img.height):
+            for x in range(img.width):
+                r, g, b, a = img.getpixel((x, y))
+                writer.writerow([x, y, r, g, b, a])
+                # print(f"({x}, {y}) → R:{r}, G:{g}, B:{b}, A:{a}")  # optional
+
+    end_time = time.time()
+    print(f"\nRGBA data successfully saved to: {output_csv}")
+    print(f"Processing time: {end_time - start_time:.4f} seconds")
+
 def main():
-    # Meminta input nama dua file dari pengguna
-    file1 = input("Input the first file name: ").strip()
-    file2 = input("Input the second file name: ").strip()
+    """Main program."""
+    total_start = time.time()
+    path = input("Enter image filename: ").strip()
+    output_csv = input("Enter output CSV filename: ").strip()
+    
+    img = load_image(path)
+    if img:
+        save_rgba_to_csv(img, output_csv)
+    total_end = time.time()
+    print(f"\nTotal execution time: {total_end - total_start:.4f} seconds")
 
-    # Menghitung checksum SHA256 dari kedua file
-    checksum1 = get_file_checksum(file1)
-    checksum2 = get_file_checksum(file2)
-
-    # Jika kedua file ditemukan dan hash berhasil dihitung
-    if checksum1 and checksum2:
-        print("\n--- FILE DETAILS ---")
-        print(f"{file1} | Size: {get_file_info(file1)} KB")
-        print(f"{file2} | Size: {get_file_info(file2)} KB")
-
-        print("\n--- SHA256 CHECKSUMS ---")
-        print(f"{file1}: {checksum1}")
-        print(f"{file2}: {checksum2}")
-
-        print("\n--- RESULT ---")
-        # Membandingkan hasil hash untuk menentukan kesamaan isi file
-        if checksum1 == checksum2:
-            print("The files are IDENTICAL (same content).")
-        else:
-            print("The files are DIFFERENT.")
-    else:
-        # Jika salah satu file tidak ditemukan
-        print("\nProcess stopped due to missing file(s).")
-
-# ===============================================================
-# Bagian utama program
-# Deskripsi:
-#   Memastikan fungsi main() hanya dijalankan jika file ini
-#   dijalankan langsung (bukan diimpor sebagai modul).
-# ===============================================================
 if __name__ == "__main__":
     main()
