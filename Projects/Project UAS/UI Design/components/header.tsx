@@ -13,33 +13,31 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
   const [profile, setProfile] = useState<{ name?: string; image?: string } | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem("profile")
-    if (stored) {
-      try {
-        setProfile(JSON.parse(stored))
-      } catch {
-        setProfile(null)
+    // Fetch profile from API on mount
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(data => setProfile(data))
+      .catch(err => {
+        console.error('Failed to load profile:', err)
+        setProfile({ name: 'Student' })
+      })
+
+    // Listen for profile updates from the modal
+    function onProfileUpdated(e: CustomEvent) {
+      if (e.detail) {
+        setProfile(e.detail)
+      } else {
+        // Refetch if no detail provided
+        fetch('/api/profile')
+          .then(res => res.json())
+          .then(data => setProfile(data))
+          .catch(err => console.error('Failed to reload profile:', err))
       }
     }
 
-    function onStorage(e: StorageEvent) {
-      if (e.key === "profile") {
-        if (e.newValue) setProfile(JSON.parse(e.newValue))
-        else setProfile(null)
-      }
-    }
-
-    function onProfileUpdated() {
-      const s = localStorage.getItem("profile")
-      if (s) setProfile(JSON.parse(s))
-      else setProfile(null)
-    }
-
-    window.addEventListener("storage", onStorage)
     window.addEventListener("profile:updated", onProfileUpdated as EventListener)
 
     return () => {
-      window.removeEventListener("storage", onStorage)
       window.removeEventListener("profile:updated", onProfileUpdated as EventListener)
     }
   }, [])

@@ -13,14 +13,18 @@ export default function ProfileModal({ children }: { children: React.ReactNode }
   const [preview, setPreview] = useState<string | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem("profile")
-    if (stored) {
-      try {
-        const p = JSON.parse(stored)
-        setName(p.name || "")
-        setPreview(p.image || null)
-      } catch {}
-    }
+    // Fetch profile from API
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(data => {
+        setName(data.name || "")
+        setPreview(data.image || null)
+      })
+      .catch(err => {
+        console.error('Failed to load profile:', err)
+        setName("Student")
+        setPreview(null)
+      })
   }, [])
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -59,13 +63,27 @@ export default function ProfileModal({ children }: { children: React.ReactNode }
     return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
   }
 
-  function handleSave(onClose?: () => void) {
+  async function handleSave(onClose?: () => void) {
     const imageToSave = preview || generateAvatarDataUrl(name || "Student")
     const payload = { name, image: imageToSave }
-    localStorage.setItem("profile", JSON.stringify(payload))
-    // notify other listeners (and this window) that profile changed
-    window.dispatchEvent(new CustomEvent("profile:updated", { detail: payload }))
-    if (onClose) onClose()
+    
+    try {
+      const response = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      
+      if (response.ok) {
+        // Notify other components that profile was updated
+        window.dispatchEvent(new CustomEvent("profile:updated", { detail: payload }))
+        if (onClose) onClose()
+      } else {
+        console.error('Failed to save profile')
+      }
+    } catch (error) {
+      console.error('Failed to save profile:', error)
+    }
   }
 
   function handleDeletePicture() {
