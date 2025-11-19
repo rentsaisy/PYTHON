@@ -13,8 +13,13 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
   const [profile, setProfile] = useState<{ name?: string; image?: string } | null>(null)
 
   useEffect(() => {
+    // Get user from localStorage
+    const userStr = localStorage.getItem("user")
+    const user = userStr ? JSON.parse(userStr) : null
+    const userId = user?.id || 1
+    
     // Fetch profile from API on mount
-    fetch('/api/profile')
+    fetch(`/api/profile?userId=${userId}`)
       .then(res => res.json())
       .then(data => setProfile(data))
       .catch(err => {
@@ -28,7 +33,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
         setProfile(e.detail)
       } else {
         // Refetch if no detail provided
-        fetch('/api/profile')
+        fetch(`/api/profile?userId=${userId}`)
           .then(res => res.json())
           .then(data => setProfile(data))
           .catch(err => console.error('Failed to reload profile:', err))

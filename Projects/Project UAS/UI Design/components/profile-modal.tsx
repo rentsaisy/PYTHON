@@ -13,8 +13,13 @@ export default function ProfileModal({ children }: { children: React.ReactNode }
   const [preview, setPreview] = useState<string | null>(null)
 
   useEffect(() => {
+    // Get user from localStorage
+    const userStr = localStorage.getItem("user")
+    const user = userStr ? JSON.parse(userStr) : null
+    const userId = user?.id || 1
+    
     // Fetch profile from API
-    fetch('/api/profile')
+    fetch(`/api/profile?userId=${userId}`)
       .then(res => res.json())
       .then(data => {
         setName(data.name || "")
@@ -65,7 +70,13 @@ export default function ProfileModal({ children }: { children: React.ReactNode }
 
   async function handleSave(onClose?: () => void) {
     const imageToSave = preview || generateAvatarDataUrl(name || "Student")
-    const payload = { name, image: imageToSave }
+    
+    // Get user from localStorage
+    const userStr = localStorage.getItem("user")
+    const user = userStr ? JSON.parse(userStr) : null
+    const userId = user?.id || 1
+    
+    const payload = { userId, name, image: imageToSave }
     
     try {
       const response = await fetch('/api/profile', {
@@ -75,8 +86,12 @@ export default function ProfileModal({ children }: { children: React.ReactNode }
       })
       
       if (response.ok) {
+        // Update user in localStorage
+        if (user) {
+          localStorage.setItem("user", JSON.stringify({ ...user, name, image: imageToSave }))
+        }
         // Notify other components that profile was updated
-        window.dispatchEvent(new CustomEvent("profile:updated", { detail: payload }))
+        window.dispatchEvent(new CustomEvent("profile:updated", { detail: { name, image: imageToSave } }))
         if (onClose) onClose()
       } else {
         console.error('Failed to save profile')

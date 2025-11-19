@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Sidebar from "@/components/sidebar"
 import Header from "@/components/header"
 import Dashboard from "@/components/dashboard"
@@ -11,8 +12,26 @@ import SettingsPage from "@/components/pages/settings"
 import AboutPage from "@/components/pages/about"
 
 export default function Home() {
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [currentPage, setCurrentPage] = useState("dashboard")
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check if user is logged in
+    const user = localStorage.getItem("user")
+    if (!user) {
+      // Redirect to login if not authenticated
+      router.push("/login")
+    } else {
+      setIsAuthenticated(true)
+    }
+  }, [router])
+
+  // Show nothing while checking authentication
+  if (!isAuthenticated) {
+    return null
+  }
 
   return (
     <div className="flex h-screen bg-background neural-bg">

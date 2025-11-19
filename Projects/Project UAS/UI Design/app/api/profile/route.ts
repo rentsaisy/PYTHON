@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import pool from '@/lib/db'
 
-// GET profile by user ID (for now using ID 1 as default user)
-export async function GET() {
+// GET profile by user ID from localStorage (client-side session)
+export async function GET(request: NextRequest) {
   try {
+    // Get user ID from query params
+    const { searchParams } = new URL(request.url)
+    const userId = searchParams.get('userId') || '1'
+    
     const [rows]: any = await pool.query(
-      'SELECT * FROM users WHERE id = ?',
-      [1]
+      'SELECT id, name, email, image FROM users WHERE id = ?',
+      [userId]
     )
     
     if (rows.length === 0) {
@@ -17,8 +21,8 @@ export async function GET() {
   } catch (error) {
     console.error('Database error:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch profile' },
-      { status: 500 }
+      { name: 'Student', image: null },
+      { status: 200 }
     )
   }
 }
@@ -27,25 +31,26 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, image } = body
+    const { userId, name, image } = body
+    
+    const id = userId || 1
     
     // Check if user exists
     const [rows]: any = await pool.query(
       'SELECT * FROM users WHERE id = ?',
-      [1]
+      [id]
     )
     
     if (rows.length === 0) {
-      // Insert new user
-      await pool.query(
-        'INSERT INTO users (id, name, image) VALUES (?, ?, ?)',
-        [1, name, image]
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
       )
     } else {
       // Update existing user
       await pool.query(
         'UPDATE users SET name = ?, image = ? WHERE id = ?',
-        [name, image, 1]
+        [name, image, id]
       )
     }
     

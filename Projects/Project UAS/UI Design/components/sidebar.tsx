@@ -1,6 +1,7 @@
 "use client"
 
-import { LayoutDashboard, Plus, List, Brain, Settings, Info, Sparkles, Zap } from "lucide-react"
+import { LayoutDashboard, Plus, List, Brain, Settings, Info, Sparkles, Zap, LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface SidebarProps {
   open: boolean
@@ -18,6 +19,13 @@ const menuItems = [
 ]
 
 export default function Sidebar({ open, currentPage, onNavigate }: SidebarProps) {
+  const router = useRouter()
+  
+  function handleLogout() {
+    localStorage.removeItem("user")
+    router.push("/login")
+  }
+  
   return (
     <>
       {/* Mobile overlay */}
@@ -67,6 +75,15 @@ export default function Sidebar({ open, currentPage, onNavigate }: SidebarProps)
 
         {/* Footer */}
         <div className="p-4 border-t border-border space-y-3">
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-500/10 hover:shadow-sm transition-all duration-200 smooth-transition"
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <span className="font-medium text-sm">Logout</span>
+          </button>
+          
           <div className="bg-gradient-to-br from-primary/15 to-accent/15 border border-primary/30 rounded-lg p-4 relative overflow-hidden">
             <div className="absolute inset-0 neural-pattern opacity-30" />
             <div className="relative z-10">
