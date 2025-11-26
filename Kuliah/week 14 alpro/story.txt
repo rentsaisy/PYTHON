@@ -1,0 +1,4 @@
+Today I learned Python.
+The Lecturer gave me a task to create a story file.
+Interestingly, the Enter key is being read as a new line.
+Then he reminded me about the project task which has a deadline next week.
