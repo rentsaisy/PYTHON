@@ -10,7 +10,23 @@ def volume(lenght, width, height):
 def surfaceArea(lenght, width, height):
     return ((lenght * width) + (lenght * height) + (width * height)) * 2
 
+def checkfunc():
+    assert area(10, 10) == 100 
+    assert area(0, 9999) == 0 
+    assert area(5, 8) == 40 
+    assert perimeter(10, 10) == 40 
+    assert perimeter(0, 9999) == 19998 
+    assert perimeter(5, 8) == 26 
+    assert volume(10, 10, 10) == 1000 
+    assert volume(9999, 0, 9999) == 0 
+    assert volume(5, 8, 10) == 400 
+    assert surfaceArea(10, 10, 10) == 600 
+    assert surfaceArea(9999, 0, 9999) == 199960002 
+    assert surfaceArea(5, 8, 10) == 340 
+    print("The functions is working!\n")
+
 def main():
+    checkfunc()
     print(" Here are straightforward calculations:\n 1. Area\n 2. Perimeter\n 3. Volume\n 2. Surface Area\n")
     choose = int(input("Your option is: "))
     if choose == 1:
