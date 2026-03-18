@@ -1,6 +1,7 @@
 import random
 from datetime import date, timedelta
 import csv
+cek git
 
 random.seed(42)
 
