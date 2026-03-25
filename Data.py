@@ -16,7 +16,7 @@ KECAMATAN = [
     ("Sawahan", -7.281342, 112.720984),
     ("Kenjeran", -7.223874, 112.768923),
 ]
-
+# just for git
 def clamp(v, lo, hi):
     return max(lo, min(hi, v))
 
